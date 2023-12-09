@@ -20,7 +20,7 @@ public class BankAccountController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetUserDetails(Guid? sessionId)
+    public async Task<IActionResult> GetAccounts(Guid? sessionId)
     {
         try
         {
