@@ -10,6 +10,7 @@ import Profile from "./pages/Profile/Profile.tsx";
 import './App.css'
 import "primereact/resources/themes/lara-light-green/theme.css";
 import 'primeicons/primeicons.css';
+import {GreenPoints} from "./pages/GreenPoints/GreenPoints.tsx";
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
                 <Route path="/ecoPoints" element={<></>}/>
                 <Route path="/loans" element={<Loans/>}/>
                 <Route path="/home" element={<Home/>}/>
+                <Route path="/green-points" element={<GreenPoints/>}/>
                 <Route path="/profile" element={<Profile/>}/>
                 {/*<Route path="*" element={<Page404/>}/>*/}
 

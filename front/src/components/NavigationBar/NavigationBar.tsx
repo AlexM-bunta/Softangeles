@@ -14,7 +14,8 @@ export const NavigationBar = () => {
 
     const items: MenuItem[] = [{label: 'Home', icon: 'pi pi-fw pi-home', url: "/home"},
         {label: 'Loans', icon: 'pi pi-fw pi-calendar', url: "/loans"},
-        {label: 'Deposits', icon: 'pi pi-fw pi-pencil', url: "/deposits"},
+        // {label: 'Deposits', icon: 'pi pi-fw pi-pencil', url: "/deposits"},
+        {label: 'Green Points', icon: 'pi pi-money-bill', url: '/green-points'},
         {label: 'Profile', icon: 'pi pi-user', url: "/profile"},
         {label: 'Logout', icon: 'pi pi-sign-out', url: "/"},
     ]

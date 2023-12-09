@@ -31,9 +31,9 @@ const Profile = ({name, ecoPoints}: {
                     <Avatar icon="pi pi-user" size="xlarge"></Avatar>
                     <p> Hello, <b>{name || "John Doe!"}</b></p>
                     <Tooltip target=".profile_ecopoints" mouseTrack mouseTrackLeft={10}/>
-                    <h4 className={"profile_ecopoints"} data-pr-tooltip="ECO Points are gained after each transaction
+                    <h4 className={"profile_ecopoints"} data-pr-tooltip="Green Points are gained after each transaction
                     with a eco-friendly company. Check for more details
-                    on the dedicated page !">Your ECO
+                    on the dedicated page !">Your Green
                         Points: {ecoPoints || 0} <i
                             className="pi pi-question-circle"></i></h4>
 

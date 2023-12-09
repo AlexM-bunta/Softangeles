@@ -12,6 +12,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <PrimeReactProvider>
         <React.StrictMode>
             <BrowserRouter>
+
                 <App/>
             </BrowserRouter>
         </React.StrictMode>

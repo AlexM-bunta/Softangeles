@@ -4,3 +4,9 @@
     justify-content: space-around;
     margin-top: 3rem;
 }
+
+.loans_green_form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
