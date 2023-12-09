@@ -4,6 +4,8 @@ import Authentication from "./pages/Authentification/Authentication.tsx";
 import Deposits from "./pages/Deposits/Deposits.tsx";
 import Home from "./pages/Home/Home.tsx";
 import Loans from "./pages/Loans/Loans.tsx";
+import Profile from "./pages/Profile/Profile.tsx";
+
 
 import './App.css'
 import "primereact/resources/themes/lara-light-green/theme.css";
@@ -20,6 +22,7 @@ function App() {
                 <Route path="/ecoPoints" element={<></>}/>
                 <Route path="/loans" element={<Loans/>}/>
                 <Route path="/home" element={<Home/>}/>
+                <Route path="/profile" element={<Profile/>}/>
                 {/*<Route path="*" element={<Page404/>}/>*/}
 
             </Routes>

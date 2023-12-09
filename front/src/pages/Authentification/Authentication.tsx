@@ -7,6 +7,8 @@ import {Password} from "primereact/password";
 
 import "./Authentification.css"
 import 'react-toastify/dist/ReactToastify.css';
+import Axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 
 const Authentication = () => {
@@ -20,6 +22,8 @@ const Authentication = () => {
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
 
+    const navigate = useNavigate();
+
     const footer = () => {
         return <>
             <ul className="pl-2 ml-2 mt-0 line-height-3">
@@ -31,42 +35,65 @@ const Authentication = () => {
         </>
     }
 
-    const login = () => {
+    const login = async () => {
 
-        let isInvalid = false;
+        const isInvalid = false;
 
-        if (username.length < 6) {
-            toast.error('Username must have at least 6 characters!', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: false,
-                progress: undefined,
-                theme: "colored",
-            });
-            isInvalid = true;
+        // if (username.length < 6) {
+        //     toast.error('Username must have at least 6 characters!', {
+        //         position: "top-right",
+        //         autoClose: 5000,
+        //         hideProgressBar: true,
+        //         closeOnClick: true,
+        //         pauseOnHover: true,
+        //         draggable: false,
+        //         progress: undefined,
+        //         theme: "colored",
+        //     });
+        //     isInvalid = true;
+        // }
+        // if (password.length < 8 && !/^(?=\S+$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/.test(password)) {
+        //     toast.error('Invalid password!', {
+        //         position: "top-right",
+        //         autoClose: 5000,
+        //         hideProgressBar: true,
+        //         closeOnClick: true,
+        //         pauseOnHover: true,
+        //         draggable: false,
+        //         progress: undefined,
+        //         theme: "colored",
+        //     });
+        //     isInvalid = true;
+        // }
+
+        if (!isInvalid) {
+            try {
+                const response = await Axios.post("http://51.20.81.164/api/Users/Login", {
+                    username: username,
+                    password: password
+                })
+                localStorage.setItem("UID", response.data)
+                navigate("/home")
+            } catch (e) {
+                console.log(e);
+                toast.error('Invalid credentials!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                    progress: undefined,
+                    theme: "colored",
+                });
+
+            }
+
         }
-        if (password.length < 8 && !/^(?=\S+$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/.test(password)) {
-            toast.error('Invalid password!', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: false,
-                progress: undefined,
-                theme: "colored",
-            });
-            isInvalid = true;
-        }
 
-        if (!isInvalid)
-            toast.success('Register')
     }
 
-    const register = () => {
+    const register = async () => {
 
         let isInvalid = false;
 
@@ -151,8 +178,40 @@ const Authentication = () => {
             isInvalid = true;
         }
 
-        if (!isInvalid)
-            toast.success('Register')
+        if (!isInvalid) {
+            try {
+                await Axios.post("http://51.20.81.164/api/Users/Register", {
+                    username: username,
+                    password: password,
+                    email: email
+                })
+
+                toast.success('Register with success! You can login', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                    progress: undefined,
+                    theme: "colored",
+                })
+            } catch (e) {
+                console.log(e)
+                toast.error('Register failed!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                    progress: undefined,
+                    theme: "colored",
+                });
+            }
+
+
+        }
 
     }
 

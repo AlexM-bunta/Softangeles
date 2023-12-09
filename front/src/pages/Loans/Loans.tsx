@@ -10,9 +10,16 @@ const Loans = () => {
     const [visibleLoan, setVisibleLoan] = useState(false)
     const [visibleGreenLoan, setVisibleGreenLoan] = useState(false)
 
+    const listOfLoans = [{}]
 
     return <>
         <NavigationBar/>
+
+        <div className={"loans_container_listOfLoans"}>
+            {listOfLoans.length > 1 ? listOfLoans.map((loan) => <p>{JSON.stringify(loan)}</p>) :
+                <p style={{textAlign: "center"}}> You don't have any loans!</p>}
+        </div>
+
         <div className={"loans_container_cards"}>
             <CardLoan
                 description={"We understand that life is filled with unexpected challenges and opportunities. " +
@@ -34,8 +41,10 @@ const Loans = () => {
         <Dialog visible={visibleLoan} header={"Classic Loan"} onHide={() => setVisibleLoan(false)}>
             Classic Loan
         </Dialog>
-        <Dialog visible={visibleGreenLoan} header={"Green Loan"} onHide={() => setVisibleGreenLoan(false)}>
-            Green Loan
+        <Dialog visible={visibleGreenLoan} header={"Green Loan"} style={{minWidth: "40rem"}}
+                onHide={() => setVisibleGreenLoan(false)}>
+            <div> Interest rate: <s>14</s> <b style={{color: "green"}}>10%</b></div>
+            <div> Max amount:<s>18.000</s> <b style={{color: "green"}}> 30.000 $ </b></div>
         </Dialog>
     </>
 }

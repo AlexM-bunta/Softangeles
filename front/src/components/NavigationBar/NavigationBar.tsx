@@ -7,6 +7,7 @@ import {Sidebar} from "primereact/sidebar";
 import {Button} from "primereact/button";
 
 import "./NavigationBar.css"
+import Axios from "axios";
 
 
 export const NavigationBar = () => {
@@ -15,11 +16,17 @@ export const NavigationBar = () => {
         {label: 'Loans', icon: 'pi pi-fw pi-calendar', url: "/loans"},
         {label: 'Deposits', icon: 'pi pi-fw pi-pencil', url: "/deposits"},
         {label: 'Profile', icon: 'pi pi-user', url: "/profile"},
+        {label: 'Logout', icon: 'pi pi-sign-out', url: "/"},
     ]
 
     const navigate = useNavigate();
 
     const [visible, setVisible] = useState(false);
+    const logout = async () => {
+        await Axios.post("http://51.20.81.164/api/Users/Logout", {session: localStorage.getItem("UID")});
+        localStorage.clear();
+        navigate("/")
+    }
 
     return (<div className={"navigation_bar"} style={{
             display: "flex",
@@ -38,7 +45,9 @@ export const NavigationBar = () => {
                     {items.map(item => <li
                         key={item.label}
                         style={{cursor: "pointer", width: "fit-content", fontSize: "1.2rem", marginBottom: "1.5rem"}}
-                        onClick={() => navigate(item.url || "/")}><i
+                        onClick={() => {
+                            item.label != "Logout" ? navigate(item.url || "/") : logout()
+                        }}><i
                         className={item.icon}></i>{item.label}
                     </li>)}
                 </ul>

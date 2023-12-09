@@ -32,7 +32,7 @@ const AddCard = () => {
         <label htmlFor="numberCard">Number Card</label>
         </span>
             <span className="p-float-label">
-                <InputNumber inputId={"cvc"} value={number} onChange={(e) => setCVC(e.value)}
+                <InputNumber inputId={"cvc"} value={cvc} onChange={(e) => setCVC(e.value)}
                              useGrouping={false}/>
         <label htmlFor="cvc">CVC</label>
         </span>
