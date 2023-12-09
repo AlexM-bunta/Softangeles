@@ -23,14 +23,14 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetUserDetails([FromBody] Guid? sessionId)
+    public async Task<IActionResult> GetUserDetails([FromBody] UserSessionContract userSessionContract)
     {
         try
         {
-            if (sessionId == null)
+            if (userSessionContract == null)
                 throw new ArgumentException();
 
-            var requestStatus = await _service.GetUserDetails(sessionId.GetValueOrDefault());
+            var requestStatus = await _service.GetUserDetails(userSessionContract.Session);
 
             if (requestStatus.UserResponseCode == UserResponseCode.UserNotFound)
                 return BadRequest("User not found.");
@@ -52,14 +52,14 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Logout([FromBody] Guid? sessionId)
+    public async Task<IActionResult> Logout([FromBody] UserSessionContract userSessionContract)
     {
         try
         {
-            if (sessionId == null)
+            if (userSessionContract == null)
                 throw new ArgumentException();
 
-             var requestStatus = await _service.Logout(sessionId.GetValueOrDefault());
+             var requestStatus = await _service.Logout(userSessionContract.Session);
 
             if (!requestStatus)
                 return StatusCode(StatusCodes.Status406NotAcceptable, "Something went wrong.");
