@@ -14,6 +14,8 @@ const Authentication = () => {
     const [registerMode, setRegisterMode] = useState(false)
 
     const [username, setUsername] = useState("")
+    const [firstName, setFirstName] = useState("")
+    const [lastName, setLastName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
@@ -67,6 +69,34 @@ const Authentication = () => {
     const register = () => {
 
         let isInvalid = false;
+
+        if (firstName.length == 0) {
+            toast.error('First name must have completed!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+                theme: "colored",
+            });
+            isInvalid = true;
+        }
+
+        if (lastName.length == 0) {
+            toast.error('Last name must have completed!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+                theme: "colored",
+            });
+            isInvalid = true;
+        }
 
         if (username.length < 6) {
             toast.error('Username must have at least 6 characters!', {
@@ -131,6 +161,19 @@ const Authentication = () => {
             <div className={"authentication_card"}>
                 <h1>Authentication</h1>
                 <div className={"authentication_card_login"}>
+
+                    {registerMode && <>
+                                        <span className="p-float-label">
+                    <AutoComplete inputId="firstName" value={firstName} onChange={(e) => setFirstName(e.value)}/>
+                    <label htmlFor="firstName">First Name</label>
+                    </span>
+
+                        <span className="p-float-label">
+                    <AutoComplete inputId="lastName" value={lastName} onChange={(e) => setLastName(e.value)}/>
+                    <label htmlFor="lastName">Last Name</label>
+                    </span>
+                    </>}
+
                     <span className="p-float-label">
                     <AutoComplete inputId="username" value={username} onChange={(e) => setUsername(e.value)}/>
                     <label htmlFor="username">Username</label>

@@ -1,0 +1,19 @@
+.deposit_container_balance {
+    text-align: center;
+}
+
+.deposit_container_balance h3 {
+    font-weight: normal;
+}
+
+.deposit_container_listOfDeposits {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.deposit_container_item {
+    width: 300px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 4%;
+}

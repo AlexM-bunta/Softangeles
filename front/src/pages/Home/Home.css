@@ -42,3 +42,19 @@
     cursor: pointer;
     text-align: center;
 }
+
+.dialogAddTransaction {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.dialogAddTransaction .p-float-label {
+    margin-top: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.dialogAddTransaction .p-float-label .p-dropdown {
+    width: 250px;
+}

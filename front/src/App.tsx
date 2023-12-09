@@ -9,7 +9,6 @@ import Loans from "./pages/Loans/Loans.tsx";
 import './App.css'
 import "primereact/resources/themes/lara-light-green/theme.css";
 import 'primeicons/primeicons.css';
-import Transactions from "./pages/Transactions/Transactions.tsx";
 
 
 function App() {
@@ -19,7 +18,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Authentication/>}/>
                 <Route path="/deposits" element={<Deposits/>}/>
-                <Route path="/transactions" element={<Transactions/>}/>
+                <Route path="/ecoPoints" element={<></>}/>
                 <Route path="/loans" element={<Loans/>}/>
                 <Route path="/home" element={<Home/>}/>
                 <Route path="*" element={<Page404/>}/>

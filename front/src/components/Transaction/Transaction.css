@@ -1,5 +1,12 @@
 .transaction_header_section {
     display: flex;
     justify-content: space-between;
+}
 
+.transaction_container {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding: 1.5rem 1rem;
+    border-radius: 5%;
+    display: flex;
+    justify-content: space-between;
 }
