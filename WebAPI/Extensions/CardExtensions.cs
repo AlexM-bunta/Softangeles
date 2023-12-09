@@ -14,7 +14,7 @@ public static class CardExtensions
             CVV = cardContract.CVV,
             IsPhysical = cardContract.IsPhysical,
             CreateDate = DateTimeExtensions.SetKindUtc(DateTime.Now) ?? DateTime.Now,
-            ExpiryDate = DateTimeExtensions.SetKindUtc(DateTime.Now.AddMonths(cardContract.Months)) ?? DateTime.Now,
+            ExpiryDate = DateTimeExtensions.SetKindUtc(DateTime.Now.AddYears(4)) ?? DateTime.Now,
         };
     }
 }
