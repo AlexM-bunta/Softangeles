@@ -1,0 +1,51 @@
+using WebAPI.Extensions;
+using WebAPI.Interfaces;
+using WebAPI.Models.Views;
+using WebAPI.Responses;
+using WebAPI.Responses.Enums;
+
+namespace WebAPI.Services;
+
+public class BankAccountService : IBankAccountService
+{
+    private readonly IBankAccountRepository _bankRepository;
+    private readonly ISessionsRepository _sessionsRepository;
+
+    public BankAccountService(IBankAccountRepository bankRepo, ISessionsRepository sessionsRepo)
+    {
+        _bankRepository = bankRepo;
+        _sessionsRepository = sessionsRepo;
+    }
+    
+    public async Task<GetBankAccountsResponse> GetBankAccountDetailsBySessionId(Guid guid)
+    {
+        var bankAccountResponse = new GetBankAccountsResponse()
+        {
+            BankAccountResponseCode = BankAccountResponseCode.Success
+        };
+        
+        var userId = await _sessionsRepository.GetActiveUserIdBySession(guid);
+
+        var bankAccountList = await _bankRepository.GetBankAccountsByUser(userId);
+
+        if (bankAccountList == null || bankAccountList.Count == 0)
+            bankAccountResponse.BankAccountResponseCode = BankAccountResponseCode.NoAccounts;
+        else
+        {
+            var bankAccountTypesList = await _bankRepository.GetBankAccountTypes();
+
+            bankAccountResponse.BankAccountDetailsList = new List<BankAccountDetails>();
+        
+            await Task.Run(() =>
+            {
+                foreach (var account in bankAccountList)
+                {
+                    var typeString = bankAccountTypesList.FirstOrDefault(bat => bat.Id == account.TypeId).Name;
+                    bankAccountResponse.BankAccountDetailsList.Add(BankAccountExtensions.ToView(account, typeString));
+                }
+            });
+        }
+        
+        return bankAccountResponse;
+    }
+}

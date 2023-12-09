@@ -1,8 +1,6 @@
-using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Contracts;
 using WebAPI.Interfaces;
-using WebAPI.Models;
 using WebAPI.Responses.Enums;
 
 namespace WebAPI.Controllers;
