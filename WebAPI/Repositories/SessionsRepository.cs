@@ -70,6 +70,8 @@ public class SessionsRepository : ISessionsRepository
 
                 if (sessionAdded.State != EntityState.Added)
                     throw new Exception();
+                
+                await _context.SaveChangesAsync();
 
                 var userSession = new User_Sessions()
                 {

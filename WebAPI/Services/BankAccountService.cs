@@ -21,7 +21,7 @@ public class BankAccountService : IBankAccountService
     {
         var bankAccountResponse = new GetBankAccountsResponse()
         {
-            BankAccountResponseCode = BankAccountResponseCode.Success
+            AccountResponseCode = AccountResponseCode.Success
         };
         
         var userId = await _sessionsRepository.GetActiveUserIdBySession(guid);
@@ -29,7 +29,7 @@ public class BankAccountService : IBankAccountService
         var bankAccountList = await _bankRepository.GetBankAccountsByUser(userId);
 
         if (bankAccountList == null || bankAccountList.Count == 0)
-            bankAccountResponse.BankAccountResponseCode = BankAccountResponseCode.NoAccounts;
+            bankAccountResponse.AccountResponseCode = AccountResponseCode.NoObjectsFound;
         else
         {
             var bankAccountTypesList = await _bankRepository.GetBankAccountTypes();

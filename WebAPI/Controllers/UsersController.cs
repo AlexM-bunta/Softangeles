@@ -16,7 +16,7 @@ public class UsersController : ControllerBase
         _service = service;
     }
     
-    [HttpGet("{sessionId}")]
+    [HttpGet("{sessionId:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

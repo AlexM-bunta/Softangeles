@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using WebAPI.Contracts;
 using WebAPI.Interfaces;
 using WebAPI.Responses.Enums;
 
@@ -7,32 +6,32 @@ namespace WebAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]/[action]")]
-public class BankAccountController : ControllerBase
+public class CardsController : ControllerBase
 {
-    private readonly IBankAccountService _service;
-    
-    public BankAccountController(IBankAccountService service)
+    private readonly ICardsService _service;
+
+    public CardsController(ICardsService service)
     {
         _service = service;
     }
-    
-    [HttpGet("{sessionId}")]
+
+    [HttpGet("{accountId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetUserDetails(Guid? sessionId)
+    public async Task<IActionResult> GetCardsByAccountId(int accountId)
     {
         try
         {
-            if (sessionId == null)
+            if (accountId == 0)
                 throw new ArgumentException();
 
-            var requestStatus = await _service.GetBankAccountDetailsBySessionId(sessionId.GetValueOrDefault());
+            var requestStatus = await _service.GetCardsByAccountId(accountId);
 
             if (requestStatus.AccountResponseCode == AccountResponseCode.NoObjectsFound)
-                return BadRequest("No accounts found for this user.");
+                return BadRequest("No cards found for this account.");
 
-            return Ok(requestStatus.BankAccountDetailsList);
+            return Ok(requestStatus.CardsList);
         }
         catch (Exception ex)
         {
