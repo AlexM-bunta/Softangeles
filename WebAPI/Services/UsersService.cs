@@ -1,6 +1,7 @@
 using WebAPI.Contracts;
+using WebAPI.Extensions;
 using WebAPI.Interfaces;
-using WebAPI.Reponses;
+using WebAPI.Responses;
 using WebAPI.Responses.Enums;
 
 namespace WebAPI.Services;
@@ -18,13 +19,19 @@ public class UsersService : IUsersService
         _logger = logger;
     }
 
-    public async Task<GetUserResponse> GetUserDetails(Guid guid)
+    public async Task<GetUserDetailsResponse> GetUserDetails(Guid guid)
     {
         var userId = await _sessionsRepository.GetActiveUserIdBySession(guid);
 
         var getUserResponse = await _usersRepository.GetUserById(userId);
+
+        var getUserDetailsResponse = new GetUserDetailsResponse()
+        {
+            UserResponseCode = getUserResponse.UserResponseCode,
+            UserDetails = UsersExtensions.ToDetails(getUserResponse.User)
+        };
         
-        return getUserResponse;
+        return getUserDetailsResponse;
     }
 
     public async Task<LoginResponse> Login(UserBaseContract userContract)

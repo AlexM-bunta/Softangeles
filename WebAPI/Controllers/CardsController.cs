@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Contracts;
 using WebAPI.Interfaces;
 using WebAPI.Responses.Enums;
 
@@ -32,6 +33,33 @@ public class CardsController : ControllerBase
                 return BadRequest("No cards found for this account.");
 
             return Ok(requestStatus.CardsList);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+    
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> AddCard([FromBody] CardAddContract cardContract)
+    {
+        try
+        {
+            if (cardContract == null)
+                throw new ArgumentException();
+
+            var requestStatus = await _service.AddCard(cardContract);
+
+            if (requestStatus == CardAddResponseCode.NumberInvalid)
+                return BadRequest("Number invalid.");
+
+            if (requestStatus == CardAddResponseCode.Fail)
+                throw new Exception();
+
+            return Ok(requestStatus);
         }
         catch (Exception ex)
         {

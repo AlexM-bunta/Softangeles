@@ -33,7 +33,7 @@ public class UsersController : ControllerBase
             if (requestStatus.UserResponseCode == UserResponseCode.UserNotFound)
                 return BadRequest("User not found.");
 
-            return Ok(requestStatus.User);
+            return Ok(requestStatus.UserDetails);
         }
         catch (ArgumentException ae)
         {

@@ -1,9 +1,10 @@
+using WebAPI.Models.Views;
 using WebAPI.Responses.Enums;
 
 namespace WebAPI.Responses;
 
-public class LoginResponse
+public class GetUserDetailsResponse
 {
-    public Guid? SessionId { get; set; }
+    public UserDetails? UserDetails { get; set; }
     public UserResponseCode UserResponseCode { get; set; }
 }

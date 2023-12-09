@@ -1,3 +1,5 @@
+using WebAPI.Contracts;
+using WebAPI.Extensions;
 using WebAPI.Interfaces;
 using WebAPI.Models;
 using WebAPI.Responses;
@@ -29,5 +31,19 @@ public class CardsService : ICardsService
             getCardsResponse.CardsList = cardsList;
         
         return getCardsResponse;
+    }
+
+    public async Task<CardAddResponseCode> AddCard(CardAddContract cardContract)
+    {
+        var doesNumberExist = await _cardsRepository.DoesNumberExist(cardContract.Number);
+
+        if (doesNumberExist)
+            return CardAddResponseCode.NumberInvalid;
+
+        var card = CardExtensions.ToCard(cardContract);
+
+        var response = await _cardsRepository.AddCard(card);
+
+        return response;
     }
 }
