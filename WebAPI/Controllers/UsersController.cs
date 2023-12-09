@@ -16,19 +16,19 @@ public class UsersController : ControllerBase
         _service = service;
     }
     
-    [HttpGet]
+    [HttpGet("{sessionId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetUserDetails([FromBody] UserSessionContract userSessionContract)
+    public async Task<IActionResult> GetUserDetails(Guid? sessionId)
     {
         try
         {
-            if (userSessionContract == null)
+            if (sessionId == null)
                 throw new ArgumentException();
 
-            var requestStatus = await _service.GetUserDetails(userSessionContract.Session);
+            var requestStatus = await _service.GetUserDetails(sessionId.GetValueOrDefault());
 
             if (requestStatus.UserResponseCode == UserResponseCode.UserNotFound)
                 return BadRequest("User not found.");

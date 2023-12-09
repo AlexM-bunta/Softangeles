@@ -16,18 +16,18 @@ public class BankAccountController : ControllerBase
         _service = service;
     }
     
-    [HttpGet]
+    [HttpGet("{sessionId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetUserDetails([FromBody] UserSessionContract userSessionContract)
+    public async Task<IActionResult> GetUserDetails(Guid? sessionId)
     {
         try
         {
-            if (userSessionContract == null)
+            if (sessionId == null)
                 throw new ArgumentException();
 
-            var requestStatus = await _service.GetBankAccountDetailsBySessionId(userSessionContract.Session);
+            var requestStatus = await _service.GetBankAccountDetailsBySessionId(sessionId.GetValueOrDefault());
 
             if (requestStatus.BankAccountResponseCode == BankAccountResponseCode.NoAccounts)
                 return BadRequest("No accounts found for this user.");
