@@ -10,6 +10,7 @@ var connectionString = builder.Configuration.GetConnectionString("BankingDatabas
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 services.AddControllers();
+services.AddCors();
 
 services.AddDbContext<ApplicationDbContext>(options =>
     {
@@ -43,6 +44,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors(corsBuilder => corsBuilder
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
+
+app.UseMvc();
 app.UseHttpsRedirection();
 app.MapControllers();
 app.UseAuthorization();

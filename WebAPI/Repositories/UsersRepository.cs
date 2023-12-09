@@ -27,7 +27,7 @@ public class UsersRepository : IUsersRepository
             UserResponseCode = UserResponseCode.Success
         };
 
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id && u.IsActive);
 
         if (user == null)
             response.UserResponseCode = UserResponseCode.UserNotFound;
@@ -45,7 +45,7 @@ public class UsersRepository : IUsersRepository
         };
         
         var user = await _context.Users.FirstOrDefaultAsync(u =>
-            userContract.Username.Equals(u.Username));
+            userContract.Username.Equals(u.Username) && u.IsActive);
 
         if (user == null)
             response.UserResponseCode = UserResponseCode.UserNotFound;
