@@ -18,6 +18,15 @@ public class SessionsRepository : ISessionsRepository
         _logger = logger;
     }
 
+    public async Task<int> GetActiveUserIdBySession(Guid guid)
+    {
+        var sessionObj = await _context.Sessions.FirstOrDefaultAsync(s => s.SessionId == guid);
+
+        var userObject = await _context.UserSessions.FirstOrDefaultAsync(us => us.SessionTableId == sessionObj.Id);
+
+        return userObject?.UserId ?? 0;
+    }
+    
     public async Task<bool> CheckActiveSession(int sessionTableId)
     {
         var session = await _context.Sessions.FirstOrDefaultAsync(s => s.Id == sessionTableId && s.EndDate != null);

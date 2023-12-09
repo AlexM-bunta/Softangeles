@@ -4,6 +4,7 @@ namespace WebAPI.Interfaces;
 
 public interface ISessionsRepository
 {
+    Task<int> GetActiveUserIdBySession(Guid guid);
     Task<bool> CheckActiveSession(int sessionTableId);
     Task<bool> CheckActiveSession(Guid sessionId);
     Task<bool> CheckActiveSessionByUser(User user);

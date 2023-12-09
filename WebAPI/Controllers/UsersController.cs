@@ -17,9 +17,39 @@ public class UsersController : ControllerBase
     {
         _service = service;
     }
+    
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetUserDetails([FromBody] Guid? sessionId)
+    {
+        try
+        {
+            if (sessionId == null)
+                throw new ArgumentException();
 
+            var requestStatus = await _service.GetUserDetails(sessionId.GetValueOrDefault());
+
+            if (requestStatus.UserResponseCode == UserResponseCode.UserNotFound)
+                return BadRequest("User not found.");
+
+            return Ok(requestStatus.User);
+        }
+        catch (ArgumentException ae)
+        {
+            return BadRequest("Invalid parameters. Check body.");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+    
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Logout([FromBody] Guid? sessionId)
@@ -48,6 +78,7 @@ public class UsersController : ControllerBase
     
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Login([FromBody] UserBaseContract userContract)
@@ -80,7 +111,8 @@ public class UsersController : ControllerBase
     
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status406NotAcceptable)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Register([FromBody] UserRegisterContract userContract)
     {

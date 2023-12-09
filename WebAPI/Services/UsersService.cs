@@ -17,7 +17,16 @@ public class UsersService : IUsersService
         _sessionsRepository = sessionsRepo;
         _logger = logger;
     }
-    
+
+    public async Task<GetUserResponse> GetUserDetails(Guid guid)
+    {
+        var userId = await _sessionsRepository.GetActiveUserIdBySession(guid);
+
+        var getUserResponse = await _usersRepository.GetUserById(userId);
+        
+        return getUserResponse;
+    }
+
     public async Task<LoginResponse> Login(UserBaseContract userContract)
     {
         var loginResponse = new LoginResponse()

@@ -20,6 +20,23 @@ public class UsersRepository : IUsersRepository
         _logger = logger;
     }
 
+    public async Task<GetUserResponse> GetUserById(int id)
+    {
+        var response = new GetUserResponse()
+        {
+            UserResponseCode = UserResponseCode.Success
+        };
+
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+
+        if (user == null)
+            response.UserResponseCode = UserResponseCode.UserNotFound;
+        else
+            response.User = user;
+
+        return response;
+    }
+    
     public async Task<GetUserResponse> GetUser(UserBaseContract userContract)
     {
         var response = new GetUserResponse()
