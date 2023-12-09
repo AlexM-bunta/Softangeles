@@ -1,0 +1,14 @@
+.navigation_bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid #e2dfdf;
+}
+
+.navigation_bar ul {
+    z-index: 2;
+}
+
+.navigation_bar_logo {
+    margin-left: 1rem;
+}
