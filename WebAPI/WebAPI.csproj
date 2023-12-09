@@ -9,14 +9,28 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="EntityFramework6.Npgsql" Version="6.4.3" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
+      <Content Remove="UserController\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="UserController\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="UserController\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="UserController\**" />
+      <None Remove="Dockerfile" />
     </ItemGroup>
 
 </Project>
