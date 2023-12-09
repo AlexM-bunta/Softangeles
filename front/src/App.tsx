@@ -3,7 +3,6 @@ import {Route, Routes} from "react-router-dom";
 import Authentication from "./pages/Authentification/Authentication.tsx";
 import Deposits from "./pages/Deposits/Deposits.tsx";
 import Home from "./pages/Home/Home.tsx";
-import Page404 from "./pages/Page404/Page404.tsx";
 import Loans from "./pages/Loans/Loans.tsx";
 
 import './App.css'
@@ -21,7 +20,7 @@ function App() {
                 <Route path="/ecoPoints" element={<></>}/>
                 <Route path="/loans" element={<Loans/>}/>
                 <Route path="/home" element={<Home/>}/>
-                <Route path="*" element={<Page404/>}/>
+                {/*<Route path="*" element={<Page404/>}/>*/}
 
             </Routes>
         </div>
