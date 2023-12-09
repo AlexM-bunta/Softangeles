@@ -16,7 +16,7 @@ const Deposits = ({balance}: { balance?: string | number }) => {
             {/*<div className={"deposit_central_container"}>*/}
             {listOfDeposits.map(deposit => <div className={"deposit_container_item"}>
                 <h5 style={{color: "teal"}}> Classic Deposit</h5>
-
+                {deposit.sum}
             </div>)}
             {/*</div>*/}
         </div>

@@ -117,7 +117,7 @@ const Home = () => {
     const cardTemplate = (card: cardItem) => <div className={"home_card_template"}><ReactCreditCards cvc={card.cvc}
                                                                                                      expiry={displayedCartDetails ? card.expiry : "**/**"}
                                                                                                      name={card.name}
-                                                                                                     number={displayedCartDetails ? card.number : card.number.slice(0, 4) + "**** **** ****"}/>
+                                                                                                     number={displayedCartDetails ? card.number : card.number.toString().slice(0, 4) + "**** **** ****"}/>
         <span onClick={() => setVisibleBalance(!visibleBalance)}
               style={{cursor: "pointer"}}>  {visibleBalance ? <p>{card.balance || "NaN"}</p> : <p><i
             className={"pi pi-eye"}></i> Display balance </p>} </span>

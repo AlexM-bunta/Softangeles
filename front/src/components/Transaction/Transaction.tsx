@@ -1,7 +1,12 @@
 import "./Transaction.css"
 import {MdInput, MdOutput} from "react-icons/md";
 
-const Transaction = ({sender, receiver, sum, date}) => {
+const Transaction = ({sender, receiver, sum, date}: {
+    sender: string,
+    receiver: string,
+    sum: number | string,
+    date?: string
+}) => {
     return (
         <div className={"transaction_container"}>
             <div>

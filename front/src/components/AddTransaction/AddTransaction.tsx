@@ -22,7 +22,7 @@ const AddTransaction = () => {
                 <label htmlFor="Details">Details</label>
                 </span>
             <span className="p-float-label">
-                <InputNumber value={amount} inputId={"Amount"} onChange={(e) => setAmount(e.value)}
+                <InputNumber value={amount} inputId={"Amount"} onChange={(e) => setAmount(e.value || 0)}
                              useGrouping={false}/>
                 <label htmlFor="Amount">Amount</label>
                 </span>

@@ -187,13 +187,13 @@ const Authentication = () => {
                     <span className="p-float-label">
                     <Password inputId="password" value={password} feedback={registerMode} toggleMask={true}
                               footer={footer}
-                              onChange={(e) => setPassword(e.value)}/>
+                              onChange={(e) => setPassword(e.target.value)}/>
                     <label htmlFor="password">Password</label>
                     </span>
                     {registerMode &&
                         <span className="p-float-label">
                     <Password inputId="confirmPassword" value={confirmPassword} toggleMask={true} feedback={false}
-                              onChange={(e) => setConfirmPassword(e.value)}/>
+                              onChange={(e) => setConfirmPassword(e.target.value)}/>
                     <label htmlFor="confirmPassword">Confirm Password</label>
                     </span>
                     }

@@ -38,7 +38,7 @@ export const NavigationBar = () => {
                     {items.map(item => <li
                         key={item.label}
                         style={{cursor: "pointer", width: "fit-content", fontSize: "1.2rem", marginBottom: "1.5rem"}}
-                        onClick={() => navigate(item.url)}><i
+                        onClick={() => navigate(item.url || "/")}><i
                         className={item.icon}></i>{item.label}
                     </li>)}
                 </ul>
