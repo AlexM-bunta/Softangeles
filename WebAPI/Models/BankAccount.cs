@@ -18,7 +18,7 @@ public class BankAccount
     public int UserId { get; set; }
     
     [Column("balance")] 
-    public double Balance { get; set; }
+    public decimal Balance { get; set; }
 
     [Column("iban")] 
     public string IBAN { get; set; } = string.Empty;

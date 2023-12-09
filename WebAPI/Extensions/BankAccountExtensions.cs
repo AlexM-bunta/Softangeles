@@ -1,4 +1,5 @@
 
+using WebAPI.Contracts;
 using WebAPI.Models;
 using WebAPI.Models.Views;
 

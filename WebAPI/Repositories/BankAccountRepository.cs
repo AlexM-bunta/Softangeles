@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using WebAPI.EntityFramework.Context;
 using WebAPI.Interfaces;
 using WebAPI.Models;
+using WebAPI.Responses.Enums;
 
 namespace WebAPI.Repositories;
 
@@ -26,5 +27,29 @@ public class BankAccountRepository : IBankAccountRepository
         var bankAccountTypes = await _context.BankAccountTypes.ToListAsync();
 
         return bankAccountTypes;
+    }
+
+    public async Task<AccountAddResponseCode> AddAccount(BankAccount bankAccount)
+    {
+        using (var transaction = await _context.Database.BeginTransactionAsync())
+        {
+            try
+            {
+                var accountAdded = await _context.BankAccounts.AddAsync(bankAccount);
+
+                if (accountAdded.State != EntityState.Added)
+                    throw new Exception();
+
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+                
+                return AccountAddResponseCode.Success;
+            }
+            catch (Exception)
+            {
+                await transaction.RollbackAsync();
+                return AccountAddResponseCode.Fail;
+            }
+        }
     }
 }

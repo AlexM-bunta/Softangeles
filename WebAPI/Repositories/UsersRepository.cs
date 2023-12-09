@@ -4,6 +4,7 @@ using WebAPI.EntityFramework.Context;
 using WebAPI.Interfaces;
 using WebAPI.Models;
 using WebAPI.Reponses;
+using WebAPI.Responses;
 using WebAPI.Responses.Enums;
 
 namespace WebAPI.Repositories;
@@ -60,8 +61,13 @@ public class UsersRepository : IUsersRepository
         return response;
     }
 
-    public async Task<bool> Register(UserRegisterContract userContract)
+    public async Task<UserRegisterResponse> Register(UserRegisterContract userContract)
     {
+        var userRegisterResponse = new UserRegisterResponse()
+        {
+            UserId = 0
+        };
+        
         using (var transaction = await _context.Database.BeginTransactionAsync())
         {
             try
@@ -79,15 +85,20 @@ public class UsersRepository : IUsersRepository
                     throw new Exception();
                 
                 await _context.SaveChangesAsync();
+
+                userRegisterResponse.UserId = user.Id;
+                
                 await transaction.CommitAsync();
 
-                return true;
+                userRegisterResponse.UserRegisterResponseCode = UserRegisterResponseCode.Success;
             }
             catch (Exception ex)
             {
                 await transaction.RollbackAsync();
-                return false;
+                userRegisterResponse.UserRegisterResponseCode = UserRegisterResponseCode.Fail;
             }
         }
+
+        return userRegisterResponse;
     }
 }

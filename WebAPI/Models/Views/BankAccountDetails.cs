@@ -6,7 +6,7 @@ public class BankAccountDetails
     
     public string Type { get; set; } = string.Empty;
     
-    public double Balance { get; set; }
+    public decimal Balance { get; set; }
 
     public string IBAN { get; set; } = string.Empty;
 }

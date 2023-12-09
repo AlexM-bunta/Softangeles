@@ -76,15 +76,17 @@ public class UsersService : IUsersService
         return logoutSuccessful;
     }
 
-    public async Task<bool> Register(UserRegisterContract userContract)
+    public async Task<UserRegisterResponse> Register(UserRegisterContract userContract)
     {
+        var response = new UserRegisterResponse();
+        
         var existingUser = await _usersRepository.GetUser(userContract);
 
         if (existingUser.UserResponseCode == UserResponseCode.Success)
-            return false;
+            response.UserRegisterResponseCode = UserRegisterResponseCode.AlreadyExists;
+        else
+            response = await _usersRepository.Register(userContract);
         
-        var registerSuccessful = await _usersRepository.Register(userContract);
-
-        return registerSuccessful;
+        return response;
     }
 }

@@ -39,4 +39,31 @@ public class BankAccountController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
+    
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> AddAccount([FromBody] AccountAddContract accountContract)
+    {
+        try
+        {
+            if (accountContract == null)
+                throw new ArgumentException();
+
+            var responseCode = await _service.AddAccount(accountContract);
+
+            if (responseCode == AccountAddResponseCode.TypeNotFound)
+                return BadRequest("Account type not valid.");
+
+            if (responseCode == AccountAddResponseCode.Fail)
+                throw new Exception("Request failed.");
+
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
 }

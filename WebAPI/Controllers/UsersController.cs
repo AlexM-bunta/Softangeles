@@ -119,12 +119,15 @@ public class UsersController : ControllerBase
             if (userContract == null)
                 throw new ArgumentException();
 
-            var requestStatus = await _service.Register(userContract);
+            var response = await _service.Register(userContract);
 
-            if (!requestStatus)
-                return StatusCode(StatusCodes.Status406NotAcceptable, "Something went wrong.");
+            if (response.UserRegisterResponseCode == UserRegisterResponseCode.AlreadyExists)
+                return StatusCode(StatusCodes.Status406NotAcceptable, "User already exists.");
 
-            return Ok();
+            if (response.UserRegisterResponseCode == UserRegisterResponseCode.Fail)
+                throw new Exception("Request failed.");
+            
+            return Ok(response.UserId);
         }
         catch (ArgumentException ae)
         {

@@ -1,5 +1,8 @@
+using Microsoft.VisualBasic.CompilerServices;
+using WebAPI.Contracts;
 using WebAPI.Extensions;
 using WebAPI.Interfaces;
+using WebAPI.Models;
 using WebAPI.Models.Views;
 using WebAPI.Responses;
 using WebAPI.Responses.Enums;
@@ -47,5 +50,26 @@ public class BankAccountService : IBankAccountService
         }
         
         return bankAccountResponse;
+    }
+
+    public async Task<AccountAddResponseCode> AddAccount(AccountAddContract accountContract)
+    {
+        var typeList = await _bankRepository.GetBankAccountTypes();
+
+        var type = typeList.FirstOrDefault(t => t.Name.Equals(accountContract.Type));
+
+        if (type == null)
+            return AccountAddResponseCode.TypeNotFound;
+        
+        var account = new BankAccount()
+        {
+            TypeId = type.Id,
+            Balance = 0,
+            IBAN = Utils.GenerateIBAN()
+        };
+        
+        var response = await _bankRepository.AddAccount(account);
+
+        return response;
     }
 }
