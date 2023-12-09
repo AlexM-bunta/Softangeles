@@ -1,0 +1,6 @@
+.home_card_template {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

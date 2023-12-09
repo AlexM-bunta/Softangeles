@@ -1,35 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import {Route, Routes} from "react-router-dom";
+
+import Authentication from "./pages/Authentification/Authentication.tsx";
+import Deposits from "./pages/Deposits/Deposits.tsx";
+import Home from "./pages/Home/Home.tsx";
+import Page404 from "./pages/Page404/Page404.tsx";
+import Loans from "./pages/Loans/Loans.tsx";
+
 import './App.css'
+import "primereact/resources/themes/lara-light-green/theme.css";
+import 'primeicons/primeicons.css';
+
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    return (
+        <div>
+            <Routes>
+                <Route path="/" element={<Authentication/>}/>
+                <Route path="/deposits" element={<Deposits/>}/>
+                <Route path="/loans" element={<Loans/>}/>
+                <Route path="/home" element={<Home/>}/>
+                <Route path="*" element={<Page404/>}/>
+
+            </Routes>
+        </div>
+    )
 }
 
 export default App

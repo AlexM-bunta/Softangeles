@@ -1,0 +1,170 @@
+import {useState} from "react";
+import {toast, ToastContainer} from "react-toastify";
+
+import {Button} from "primereact/button";
+import {AutoComplete} from "primereact/autocomplete";
+import {Password} from "primereact/password";
+
+import "./Authentification.css"
+import 'react-toastify/dist/ReactToastify.css';
+
+
+const Authentication = () => {
+
+    const [registerMode, setRegisterMode] = useState(false)
+
+    const [username, setUsername] = useState("")
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [confirmPassword, setConfirmPassword] = useState("")
+
+    const footer = () => {
+        return <>
+            <ul className="pl-2 ml-2 mt-0 line-height-3">
+                <li>At least one lowercase</li>
+                <li>At least one uppercase</li>
+                <li>At least one numeric</li>
+                <li>Minimum 8 characters</li>
+            </ul>
+        </>
+    }
+
+    const login = () => {
+
+        let isInvalid = false;
+
+        if (username.length < 6) {
+            toast.error('Username must have at least 6 characters!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+                theme: "colored",
+            });
+            isInvalid = true;
+        }
+        if (password.length < 8 && !/^(?=\S+$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/.test(password)) {
+            toast.error('Invalid password!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+                theme: "colored",
+            });
+            isInvalid = true;
+        }
+
+        if (!isInvalid)
+            toast.success('Register')
+    }
+
+    const register = () => {
+
+        let isInvalid = false;
+
+        if (username.length < 6) {
+            toast.error('Username must have at least 6 characters!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+                theme: "colored",
+            });
+            isInvalid = true;
+        }
+        if (email.length < 4 && !/^[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
+            toast.error('Invalid email!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+                theme: "colored",
+            });
+            isInvalid = true;
+        }
+        if (password.length < 8 && !/^(?=\S+$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/.test(password)) {
+            toast.error('Invalid password!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+                theme: "colored",
+            });
+            isInvalid = true;
+        }
+        if (password !== confirmPassword) {
+            toast.error('Password and confirmed Password must be the same!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+                theme: "colored",
+            });
+            isInvalid = true;
+        }
+
+        if (!isInvalid)
+            toast.success('Register')
+
+    }
+
+    return (
+        <div className={"authentication_container"}>
+            <div className={"authentication_card"}>
+                <h1>Authentication</h1>
+                <div className={"authentication_card_login"}>
+                    <span className="p-float-label">
+                    <AutoComplete inputId="username" value={username} onChange={(e) => setUsername(e.value)}/>
+                    <label htmlFor="username">Username</label>
+                    </span>
+                    {
+                        registerMode && <span className="p-float-label">
+                    <AutoComplete inputId="email" value={email} onChange={(e) => setEmail(e.value)}/>
+                            <label htmlFor="email">Email</label>
+                        </span>
+                    }
+                    <span className="p-float-label">
+                    <Password inputId="password" value={password} feedback={registerMode} toggleMask={true}
+                              footer={footer}
+                              onChange={(e) => setPassword(e.value)}/>
+                    <label htmlFor="password">Password</label>
+                    </span>
+                    {registerMode &&
+                        <span className="p-float-label">
+                    <Password inputId="confirmPassword" value={confirmPassword} toggleMask={true} feedback={false}
+                              onChange={(e) => setConfirmPassword(e.value)}/>
+                    <label htmlFor="confirmPassword">Confirm Password</label>
+                    </span>
+                    }
+                </div>
+
+
+                <Button onClick={registerMode ? register : login}> {registerMode ? "Register" : "Login"}</Button>
+                <Button link
+                        onClick={() => setRegisterMode(!registerMode)}>{registerMode ? "Already have an account?" : "New user? Create an account"} </Button>
+
+            </div>
+            <ToastContainer/>
+        </div>)
+}
+
+
+export default Authentication
