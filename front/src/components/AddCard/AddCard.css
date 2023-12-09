@@ -1,0 +1,13 @@
+.addCard_card_layout {
+    margin-bottom: 1.4rem;
+}
+
+.addCard_layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.addCard_inputs .p-float-label {
+    margin-bottom: 1.3rem;
+}

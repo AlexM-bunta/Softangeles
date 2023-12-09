@@ -15,6 +15,7 @@ import {Dialog} from "primereact/dialog";
 import Transaction from "../../components/Transaction/Transaction.tsx";
 import AddCard from "../../components/AddCard/AddCard.tsx";
 import AddTransaction from "../../components/AddTransaction/AddTransaction.tsx";
+import {Expenses} from "../../components/Expenses/Expenses.tsx";
 
 
 const Home = () => {
@@ -25,6 +26,7 @@ const Home = () => {
     const [visibleHistoryTransaction, setVisibleHistoryTransaction] = useState(false);
     const [visibleAddCard, setVisibleAddCard] = useState(false)
     const [visibleAddTransaction, setVisibleAddTransaction] = useState(false);
+    const [visibleExpenses, setVisibleExpenses] = useState(false);
 
     const cards: cardItem[] = [{
         cvc: "123",
@@ -157,7 +159,8 @@ const Home = () => {
                        className="pi pi-eye"></i>
                     <span>{displayedCartDetails ? "Hide Card Details" : "Display Card Details"}</span>
                 </div>
-                <div style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+                <div style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}
+                     onClick={() => setVisibleExpenses(!visibleExpenses)}>
                     <FaChartPie style={{fontSize: "1.5rem"}}/>Expenses
                 </div>
             </div>
@@ -168,6 +171,7 @@ const Home = () => {
             <div>
                 {listOfTransactions.map(transaction => <div style={{maxHeight: "800px", overflowY: "auto"}}>
                     <Transaction
+                        
                         sum={transaction.sum + transaction.currency}
                         receiver={transaction.bankAccountDestination.userFirstName + " " + transaction.bankAccountDestination.userLastName}
                         sender={transaction.bankAccountSource.userFirstName + " " + transaction.bankAccountSource.userLastName}/>
@@ -181,7 +185,10 @@ const Home = () => {
         <Dialog header="Make Transaction" visible={visibleAddTransaction} style={{minWidth: "40rem"}}
                 onHide={() => setVisibleAddTransaction(false)}>
             <AddTransaction/>
-
+        </Dialog>
+        <Dialog header="Expenses" visible={visibleExpenses} style={{minWidth: "40rem"}}
+                onHide={() => setVisibleExpenses(false)}>
+            <Expenses/>
         </Dialog>
 
     </>

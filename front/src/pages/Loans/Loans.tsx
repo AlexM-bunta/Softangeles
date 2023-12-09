@@ -1,6 +1,8 @@
+import {NavigationBar} from "../../components/NavigationBar/NavigationBar.tsx";
+
 const Loans = () => {
 
-    return <>Loans</>
+    return <><NavigationBar/></>
 }
 
 export default Loans
