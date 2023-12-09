@@ -49,7 +49,6 @@ app.UseCors(corsBuilder => corsBuilder
     .AllowAnyMethod()
     .AllowAnyHeader());
 
-app.UseMvc();
 app.UseHttpsRedirection();
 app.MapControllers();
 app.UseAuthorization();
