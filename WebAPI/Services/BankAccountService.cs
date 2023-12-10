@@ -60,9 +60,10 @@ public class BankAccountService : IBankAccountService
 
         if (type == null)
             return AccountAddResponseCode.TypeNotFound;
-        
+
         var account = new BankAccount()
         {
+            UserId = accountContract.UserId,
             TypeId = type.Id,
             Balance = 0,
             IBAN = Utils.GenerateIBAN(),

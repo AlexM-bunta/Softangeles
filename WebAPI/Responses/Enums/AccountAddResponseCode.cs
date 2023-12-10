@@ -4,5 +4,6 @@ public enum AccountAddResponseCode
 {
     Success,
     Fail,
-    TypeNotFound
+    TypeNotFound,
+    UserNotFound
 }

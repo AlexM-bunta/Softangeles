@@ -23,6 +23,13 @@ public class BankAccountRepository : IBankAccountRepository
         return bankAccounts;
     }
 
+    public async Task<BankAccount> GetBankAccountByIBAN(string IBAN)
+    {
+        var account = await _context.BankAccounts.FirstOrDefaultAsync(b => b.IBAN.Equals(IBAN));
+
+        return account;
+    }
+
     public async Task<List<BankAccountType>> GetBankAccountTypes()
     {
         var bankAccountTypes = await _context.BankAccountTypes.ToListAsync();
