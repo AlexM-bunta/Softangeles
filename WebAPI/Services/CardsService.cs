@@ -1,7 +1,6 @@
 using WebAPI.Contracts;
 using WebAPI.Extensions;
 using WebAPI.Interfaces;
-using WebAPI.Models;
 using WebAPI.Responses;
 using WebAPI.Responses.Enums;
 
