@@ -9,6 +9,7 @@ import "./Authentification.css"
 import 'react-toastify/dist/ReactToastify.css';
 import Axios from "axios";
 import {useNavigate} from "react-router-dom";
+import logo from "../../assets/36944954-e44b-4169-a07b-86f5059a8dbf-1-2.png";
 
 
 const Authentication = () => {
@@ -225,7 +226,7 @@ const Authentication = () => {
     return (
         <div className={"authentication_container"}>
             <div className={"authentication_card"}>
-                <h1>Authentication</h1>
+                <img src={logo} width={90}/>
                 <div className={"authentication_card_login"}>
 
                     {registerMode && <>

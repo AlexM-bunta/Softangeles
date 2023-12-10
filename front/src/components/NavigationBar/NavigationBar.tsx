@@ -8,6 +8,7 @@ import {Button} from "primereact/button";
 
 import "./NavigationBar.css"
 import Axios from "axios";
+import logo from "../../assets/36944954-e44b-4169-a07b-86f5059a8dbf-1-2.png"
 
 
 export const NavigationBar = () => {
@@ -38,11 +39,11 @@ export const NavigationBar = () => {
             height: "70px",
             paddingRight: "1rem",
         }}>
-            <div className={"navigation_bar_logo"}>Logo</div>
+            <div className={"navigation_bar_logo"}><img src={logo} width={60}/></div>
 
             <Button onClick={() => setVisible(true)}> <i className={"pi pi-bars "}></i> </Button>
             <Sidebar visible={visible} onHide={() => setVisible(false)}>
-                <h2>Logo</h2>
+                <img src={logo} width={60}/>
                 <ul style={{listStyleType: "none"}}>
                     {items.map(item => <li
                         key={item.label}

@@ -17,6 +17,7 @@ const DialogContent = ({description, maxAmount, interestRate}: {
     const [duration, setDuration] = useState<number | null>(null);
     const [signature, setSignature] = useState<ReactSignatureCanvas | null>();
 
+
     return <>
         <div> Interest rate: {interestRate} </div>
         <div> Max amount: {maxAmount}</div>
@@ -46,7 +47,15 @@ const DialogContent = ({description, maxAmount, interestRate}: {
                     <ReactSignatureCanvas canvasProps={{width: "250px"}} ref={data => setSignature(data)}/>
                 </div>
             </div>
-            <Button onClick={() => console.log(signature)}>Apply for loan</Button>
+            <Button onClick={() => {
+
+
+                const anchor = document.createElement('a');
+                document.body.appendChild(anchor)
+                anchor.href = signature?.toDataURL('image/png') || "";
+                anchor.download = JSON.parse(localStorage.getItem('activeUser') || "").email + new Date() + ".png"
+                anchor.click();
+            }}> Apply for loan</Button>
         </div>
     </>
 }
@@ -57,6 +66,7 @@ const Loans = () => {
     const [visibleGreenLoan, setVisibleGreenLoan] = useState(false)
 
     const listOfLoans = [{}]
+
 
     return <>
         <NavigationBar/>
