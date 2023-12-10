@@ -9,4 +9,5 @@ public interface IBankAccountService
 {
     Task<GetBankAccountsResponse> GetBankAccountDetailsBySessionId(Guid guid);
     Task<AccountAddResponseCode> AddAccount(AccountAddContract accountContract);
+    Task<UserLoansResponseCode> AddBalance(AccountAddBalanceContract accountContract);
 }

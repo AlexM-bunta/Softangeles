@@ -74,4 +74,21 @@ public class BankAccountService : IBankAccountService
 
         return response;
     }
+
+    public async Task<UserLoansResponseCode> AddBalance(AccountAddBalanceContract accountContract)
+    {
+        var userId = await _sessionsRepository.GetActiveUserIdBySession(accountContract.SessionId);
+
+        if (userId == 0)
+            return UserLoansResponseCode.UserNotFound;
+
+        var account = await _bankRepository.GetBankAccountByIBAN(accountContract.IBAN);
+
+        if (account == null)
+            return UserLoansResponseCode.NoObjectsFound;
+
+        var response = await _bankRepository.AddBalance(account, account.Balance + accountContract.Amount);
+
+        return response;
+    }
 }

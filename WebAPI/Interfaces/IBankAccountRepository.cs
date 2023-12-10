@@ -1,3 +1,4 @@
+using WebAPI.Contracts;
 using WebAPI.Models;
 using WebAPI.Responses;
 using WebAPI.Responses.Enums;
@@ -11,4 +12,5 @@ public interface IBankAccountRepository
     Task<List<BankAccountType>> GetBankAccountTypes();
     Task<AccountAddResponseCode> AddAccount(BankAccount bankAccount);
     Task<GetAccountBalanceResponse> GetCurrentBalance(int accountId);
+    Task<UserLoansResponseCode> AddBalance(BankAccount account, decimal amount);
 }

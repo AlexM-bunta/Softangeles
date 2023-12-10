@@ -59,7 +59,37 @@ public class BankAccountController : ControllerBase
             if (responseCode == AccountAddResponseCode.Fail)
                 throw new Exception("Request failed.");
 
-            return Ok();
+            return Ok(responseCode);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
+    
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> AddBalance([FromBody] AccountAddBalanceContract accountContract)
+    {
+        try
+        {
+            if (accountContract == null)
+                throw new ArgumentException();
+
+            var responseCode = await _service.AddBalance(accountContract);
+
+            if (responseCode == UserLoansResponseCode.UserNotFound)
+                return BadRequest("User not found");
+            
+            if (responseCode == UserLoansResponseCode.NoObjectsFound)
+                return BadRequest("No account found.");
+            
+            if (responseCode == UserLoansResponseCode.Fail)
+                throw new Exception("Request failed.");
+
+            return Ok(responseCode);
         }
         catch (Exception ex)
         {

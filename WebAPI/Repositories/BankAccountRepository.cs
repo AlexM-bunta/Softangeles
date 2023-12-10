@@ -10,12 +10,12 @@ namespace WebAPI.Repositories;
 public class BankAccountRepository : IBankAccountRepository
 {
     private readonly ApplicationDbContext _context;
-    
+
     public BankAccountRepository(ApplicationDbContext dbContext)
     {
         _context = dbContext;
     }
-    
+
     public async Task<List<BankAccount>> GetBankAccountsByUser(int userId)
     {
         var bankAccounts = await _context.BankAccounts.Where(b => b.UserId == userId).ToListAsync();
@@ -50,7 +50,7 @@ public class BankAccountRepository : IBankAccountRepository
 
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
-                
+
                 return AccountAddResponseCode.Success;
             }
             catch (Exception)
@@ -67,7 +67,7 @@ public class BankAccountRepository : IBankAccountRepository
         {
             AccountResponseCode = BaseResponseCode.Success
         };
-        
+
         var account = await _context.BankAccounts.FirstOrDefaultAsync(b => b.Id == accountId);
 
         if (account == null)
@@ -76,5 +76,25 @@ public class BankAccountRepository : IBankAccountRepository
             getAccountBalanceResponse.Balance = account.Balance;
 
         return getAccountBalanceResponse;
+    }
+
+    public async Task<UserLoansResponseCode> AddBalance(BankAccount account, decimal amount)
+    {
+        try
+        {
+            int rows = await _context.BankAccounts
+                .Where(u => u.Id == account.Id)
+                .ExecuteUpdateAsync(b =>
+                    b.SetProperty(u => u.Balance, amount)
+                );
+
+            if (rows == 0)
+                return UserLoansResponseCode.NoObjectsFound;
+            return UserLoansResponseCode.Success;
+        }
+        catch
+        {
+            return UserLoansResponseCode.Fail;
+        }
     }
 }
