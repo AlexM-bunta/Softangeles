@@ -48,4 +48,31 @@ public class TransactionsController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
         }
     }
+    
+    [HttpGet("{sessionId:guid}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetTransactions(Guid sessionId)
+    {
+        try
+        {
+            if (sessionId == null)
+                throw new ArgumentException();
+
+            var requestStatus = await _service.GetTransactions(sessionId);
+
+            if (requestStatus.BaseResponseCode == BaseResponseCode.NoObjectsFound)
+                return BadRequest("No transactions found.");
+
+            if (requestStatus.BaseResponseCode == BaseResponseCode.Fail)
+                throw new Exception();
+
+            return Ok(requestStatus);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+    }
 }

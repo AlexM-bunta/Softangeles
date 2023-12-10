@@ -4,6 +4,7 @@ using WebAPI.EntityFramework.Context;
 using WebAPI.Extensions;
 using WebAPI.Interfaces;
 using WebAPI.Models;
+using WebAPI.Responses;
 using WebAPI.Responses.Enums;
 
 namespace WebAPI.Repositories;
@@ -40,7 +41,7 @@ public class TransactionsRepository : ITransactionsRepository
                 await _context.SaveChangesAsync();
                 await dbContextTransaction.CommitAsync();
 
-                return BaseResponseCode.Successful;
+                return BaseResponseCode.Success;
             }
             catch (Exception)
             {
@@ -48,5 +49,26 @@ public class TransactionsRepository : ITransactionsRepository
                 return BaseResponseCode.Fail;
             }
         }
+    }
+
+    public async Task<TransactionsGetResponse> GetTransactions(List<BankAccount> accounts)
+    {
+        var getTransactionsResponse = new TransactionsGetResponse()
+        {
+            BaseResponseCode = BaseResponseCode.Success
+        };
+
+        getTransactionsResponse.DestinationTransactions =
+            await _context.Transactions.Where(t => accounts.Select(a => a.Id).Contains(t.DestinationAccountId)).ToListAsync();
+        getTransactionsResponse.SourceTransactions =
+            await _context.Transactions.Where(t => accounts.Select(a => a.Id).Contains(t.SourceAccountId)).ToListAsync();
+
+        if (getTransactionsResponse.DestinationTransactions == null ||
+            getTransactionsResponse.SourceTransactions == null ||
+            getTransactionsResponse.DestinationTransactions.Count == 0 ||
+            getTransactionsResponse.SourceTransactions.Count == 0)
+            getTransactionsResponse.BaseResponseCode = BaseResponseCode.NoObjectsFound;
+        
+        return getTransactionsResponse;
     }
 }

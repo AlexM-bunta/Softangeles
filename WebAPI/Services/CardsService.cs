@@ -20,13 +20,13 @@ public class CardsService : ICardsService
     {
         var getCardsResponse = new GetCardsResponse()
         {
-            AccountResponseCode = AccountResponseCode.Success
+            AccountResponseCode = BaseResponseCode.Success
         };
         
         var cardsList = await _cardsRepository.GetCardsByAccountId(id);
 
         if (cardsList == null || cardsList.Count == 0)
-            getCardsResponse.AccountResponseCode = AccountResponseCode.NoObjectsFound;
+            getCardsResponse.AccountResponseCode = BaseResponseCode.NoObjectsFound;
         else
             getCardsResponse.CardsList = cardsList;
         

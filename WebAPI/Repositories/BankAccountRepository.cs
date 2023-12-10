@@ -65,13 +65,13 @@ public class BankAccountRepository : IBankAccountRepository
     {
         var getAccountBalanceResponse = new GetAccountBalanceResponse()
         {
-            AccountResponseCode = AccountResponseCode.Success
+            AccountResponseCode = BaseResponseCode.Success
         };
         
         var account = await _context.BankAccounts.FirstOrDefaultAsync(b => b.Id == accountId);
 
         if (account == null)
-            getAccountBalanceResponse.AccountResponseCode = AccountResponseCode.NoObjectsFound;
+            getAccountBalanceResponse.AccountResponseCode = BaseResponseCode.NoObjectsFound;
         else
             getAccountBalanceResponse.Balance = account.Balance;
 

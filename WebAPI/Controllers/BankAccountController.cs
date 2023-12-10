@@ -29,7 +29,7 @@ public class BankAccountController : ControllerBase
 
             var requestStatus = await _service.GetBankAccountDetailsBySessionId(sessionId.GetValueOrDefault());
 
-            if (requestStatus.AccountResponseCode == AccountResponseCode.NoObjectsFound)
+            if (requestStatus.AccountResponseCode == BaseResponseCode.NoObjectsFound)
                 return BadRequest("No accounts found for this user.");
 
             return Ok(requestStatus.BankAccountDetailsList);

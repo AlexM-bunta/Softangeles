@@ -1,5 +1,6 @@
 using WebAPI.Contracts;
 using WebAPI.Interfaces;
+using WebAPI.Responses;
 using WebAPI.Responses.Enums;
 
 namespace WebAPI.Services;
@@ -8,10 +9,15 @@ public class TransactionsService : ITransactionsService
 {
     private readonly ITransactionsRepository _transactionRepository;
     private readonly IBankAccountRepository _bankAccountRepository;
+    private readonly ISessionsRepository _sessionsRepository;
 
-    public TransactionsService(ITransactionsRepository transactionRepo, IBankAccountRepository bankAccountRepo)
+    public TransactionsService(
+        ITransactionsRepository transactionRepo, 
+        ISessionsRepository sessionsRepo, 
+        IBankAccountRepository bankAccountRepo)
     {
         _transactionRepository = transactionRepo;
+        _sessionsRepository = sessionsRepo;
         _bankAccountRepository = bankAccountRepo;
     }
     
@@ -47,5 +53,16 @@ public class TransactionsService : ITransactionsService
             return TransactionProcessResponseCode.Fail;
         
         return TransactionProcessResponseCode.Successful;
+    }
+
+    public async Task<TransactionsGetResponse> GetTransactions(Guid sessionId)
+    {
+        var userId = await _sessionsRepository.GetActiveUserIdBySession(sessionId);
+
+        var accounts = await _bankAccountRepository.GetBankAccountsByUser(userId);
+
+        var response = await _transactionRepository.GetTransactions(accounts);
+
+        return response;
     }
 }

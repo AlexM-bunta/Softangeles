@@ -29,7 +29,7 @@ public class CardsController : ControllerBase
 
             var requestStatus = await _service.GetCardsByAccountId(accountId);
 
-            if (requestStatus.AccountResponseCode == AccountResponseCode.NoObjectsFound)
+            if (requestStatus.AccountResponseCode == BaseResponseCode.NoObjectsFound)
                 return BadRequest("No cards found for this account.");
 
             return Ok(requestStatus.CardsList);
