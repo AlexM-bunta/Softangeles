@@ -1,15 +1,36 @@
 import "./GreenPoints.css"
 import {NavigationBar} from "../../components/NavigationBar/NavigationBar.tsx";
 import {Button} from "primereact/button";
-import {useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 import {OverlayPanel} from "primereact/overlaypanel";
 import {Image} from "primereact/image";
-import {randCompanyName, randNumber, randProductName} from "@ngneat/falso";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+import {db} from "../../firebase/firebase.config.js"
+import {collection, getDocs} from "firebase/firestore"
 
 
-const Ticket = ({product, by, points, discount}: { product: string, by: string, points: number, discount: number }) => {
+type Ticket = {
+    id?: string,
+    product: string
+    by: string
+    points: number
+    discount: number
+    code?: string
+}
 
-    const disabled = points > (JSON.parse(localStorage.getItem("activeUser") || "")).ecoPoints;
+const Ticket = ({product, by, points, discount, btnLabel, code}: {
+    product: string,
+    by: string,
+    points?: number,
+    discount: number,
+    btnLabel?: string,
+    code?: string
+}) => {
+
+    const disabled = !!points || 0 > (JSON.parse(localStorage.getItem("activeUser") || "")).ecoPoints;
+
+    const [visibleCode, setVisibleCode] = useState(false)
 
     return <div
         style={{
@@ -23,10 +44,13 @@ const Ticket = ({product, by, points, discount}: { product: string, by: string, 
             paddingRight: "1rem"
         }}>
         <h3>{product}</h3>
-        <div>By: + {by}</div>
+        <div>By: {by}</div>
         <div>
-            <p>Price: {points}</p>
-            <Button disabled={disabled}>  {disabled ? "Not enough points" : "Buy Ticket"}</Button>
+            <p> {points && `Price: ${points}`}</p>
+            {!btnLabel ? <Button disabled={disabled}>  {disabled ? "Not enough points" : "Buy Ticket"}</Button> :
+                <Button onClick={() => setVisibleCode(!visibleCode)}> {btnLabel}</Button>}
+            {visibleCode && <p> Code: {code}</p>}
+
         </div>
         <p>Value: {discount} % off </p>
     </div>
@@ -37,6 +61,9 @@ export const GreenPoints = () => {
     const WAT = useRef<OverlayPanel>(null);
     const HTG = useRef<OverlayPanel>(null);
     const ER = useRef<OverlayPanel>(null);
+
+    const [listTickets, setListTickets] = useState<Ticket[]>([])
+    const [myTickets, setMyTickets] = useState<Omit<Ticket, 'points'>[]>([])
 
     const listOfCompanies = [
         {
@@ -58,53 +85,44 @@ export const GreenPoints = () => {
             url: "https://www.evoqua.com"
         }]
 
+    const ticketCollectionRef = collection(db, 'tickets');
+    const myticketsCollectionRef = collection(db, 'mytickets');
 
-    const listOfTickets = [{product: 'Vest', by: 'Patagonia', points: 300, discount: 20}, {
-        product: randProductName(),
-        by: randCompanyName(),
-        points: randNumber({min: 100, max: 430}),
-        discount: randNumber({min: 1, max: 20})
-    },
-        {
-            product: randProductName(),
-            by: randCompanyName(),
-            points: randNumber({min: 100, max: 430}),
-            discount: randNumber({min: 1, max: 20})
-        },
-        {
-            product: randProductName(),
-            by: randCompanyName(),
-            points: randNumber({min: 100, max: 430}),
-            discount: randNumber({min: 1, max: 20})
-        },
-        {
-            product: randProductName(),
-            by: randCompanyName(),
-            points: randNumber({min: 100, max: 430}),
-            discount: randNumber({min: 1, max: 20})
-        },
-        {
-            product: randProductName(),
-            by: randCompanyName(),
-            points: randNumber({min: 100, max: 430}),
-            discount: randNumber({min: 1, max: 20})
-        },
-        {
-            product: randProductName(),
-            by: randCompanyName(),
-            points: randNumber({min: 100, max: 430}),
-            discount: randNumber({min: 1, max: 20})
-        },
-        {
-            product: randProductName(),
-            by: randCompanyName(),
-            points: randNumber({min: 100, max: 430}),
-            discount: randNumber({min: 1, max: 20})
-        }]
+
+    useEffect(() => {
+
+        const getTickets = async () => {
+            const array: Ticket[] = [];
+            try {
+                const ticketList = await getDocs(ticketCollectionRef)
+                ticketList.docs.map(doc => (array.push({by: "", discount: 0, points: 0, product: "", ...doc.data()})))
+                setListTickets(array)
+            } catch (e) {
+                console.log(e)
+            }
+        };
+
+        const getMyTickets = async () => {
+
+            const array: Omit<Ticket, 'points'>[] = [];
+
+            try {
+                const ticketList = await getDocs(myticketsCollectionRef)
+                ticketList.docs.map(doc => (array.push({by: "", discount: 0, product: "", ...doc.data()})))
+                setMyTickets(array)
+            } catch (e) {
+                console.log(e)
+            }
+        }
+
+
+        getTickets();
+        getMyTickets();
+    }, [])
+
 
     const points: string | null = (JSON.parse(localStorage.getItem("activeUser") || "")).ecoPoints
 
-    console.log(points)
 
     return (
         <>
@@ -130,7 +148,11 @@ export const GreenPoints = () => {
             </OverlayPanel>
 
             <h3 style={{textAlign: "center"}}>Your Tickets </h3>
-            <div style={{textAlign: "center", marginBottom: "2.6rem"}}> You don't have any tickets</div>
+            <div style={{display: "flex", flexWrap: "wrap", gap: "1.1rem", justifyContent: "center"}}>
+                {myTickets.map(item => <Ticket {...item} btnLabel={"Activate code"}/>)}
+            </div>
+            {myTickets.length === 0 &&
+                <div style={{textAlign: "center", marginBottom: "2.6rem"}}> You don't have any tickets</div>}
 
             <div className={"greenPoints_container"}>
                 <Button onClick={(e) => WAT.current?.toggle(e)}>What are them ?</Button>
@@ -162,7 +184,7 @@ export const GreenPoints = () => {
             </div>
             <h3 style={{textAlign: "center", marginTop: "2rem"}}>Check available tickets</h3>
             <div style={{display: "flex", flexWrap: "wrap", gap: "1.1rem", justifyContent: "center"}}>
-                {listOfTickets.map((item) => <Ticket {...item}/>)}
+                {listTickets.map((item) => <Ticket {...item}/>)}
             </div>
         </>
     )
