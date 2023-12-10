@@ -16,7 +16,105 @@ import Transaction from "../../components/Transaction/Transaction.tsx";
 import AddCard from "../../components/AddCard/AddCard.tsx";
 import AddTransaction from "../../components/AddTransaction/AddTransaction.tsx";
 import {Expenses} from "../../components/Expenses/Expenses.tsx";
+import {
+    randCreditCardCVV,
+    randCreditCardNumber,
+    randCurrencyCode,
+    randFirstName,
+    randFullName,
+    randIban,
+    randLastName,
+    randNumber
+} from "@ngneat/falso";
 
+const cards: cardItem[] = [{
+    cvc: randCreditCardCVV(),
+    expiry: "05/29",
+    name: randFullName(),
+    number: randCreditCardNumber(),
+    balance: randNumber() + randCurrencyCode()
+}, {
+    cvc: randCreditCardCVV(),
+    expiry: "03/27",
+    name: randFullName(),
+    number: randCreditCardNumber(),
+    balance: randNumber() + randCurrencyCode()
+}]
+
+const listOfTransactions = [
+    {
+        bankAccountSource:
+            {
+                type: "credit",
+                iban: randIban(),
+                userFirstName: randFirstName(),
+                userLastName: randLastName()
+            },
+        bankAccountDestination:
+            {
+                type: "debit",
+                iban: randIban(),
+                userFirstName: randFirstName(),
+                userLastName: randLastName()
+            },
+        sum: randNumber(),
+        currency: randCurrencyCode(),
+    },
+    {
+        bankAccountSource:
+            {
+                type: "credit",
+                iban: randIban(),
+                userFirstName: randFirstName(),
+                userLastName: randLastName()
+            },
+        bankAccountDestination:
+            {
+                type: "debit",
+                iban: randIban(),
+                userFirstName: randFirstName(),
+                userLastName: randLastName()
+            },
+        sum: randNumber(),
+        currency: randCurrencyCode(),
+    },
+    {
+        bankAccountSource:
+            {
+                type: "credit",
+                iban: "ro123456",
+                userFirstName: randFirstName(),
+                userLastName: randLastName()
+            },
+        bankAccountDestination:
+            {
+                type: "debit",
+                iban: "ro98765",
+                userFirstName: randFirstName(),
+                userLastName: randLastName()
+            },
+        sum: randNumber(),
+        currency: randCurrencyCode(),
+    },
+    {
+        bankAccountSource:
+            {
+                type: "credit",
+                iban: "ro123456",
+                userFirstName: randFirstName(),
+                userLastName: randLastName()
+            },
+        bankAccountDestination:
+            {
+                type: "debit",
+                iban: "ro98765",
+                userFirstName: randFirstName(),
+                userLastName: randLastName()
+            },
+        sum: randNumber(),
+        currency: randCurrencyCode(),
+    },
+]
 
 const Home = () => {
 
@@ -27,93 +125,6 @@ const Home = () => {
     const [visibleAddCard, setVisibleAddCard] = useState(false)
     const [visibleAddTransaction, setVisibleAddTransaction] = useState(false);
     const [visibleExpenses, setVisibleExpenses] = useState(false);
-    
-    const cards: cardItem[] = [{
-        cvc: "123",
-        expiry: "05/29",
-        name: "John Doe",
-        number: "4130 1234 1234 1234",
-        balance: "4000 RON"
-    }, {cvc: "178", expiry: "03/27", name: "Amalie T", number: "5678 4134 7874 9035", balance: "1400 EUR"}]
-
-    const listOfTransactions = [
-        {
-            bankAccountSource:
-                {
-                    type: "credit",
-                    iban: "ro123456",
-                    userFirstName: "Martin",
-                    userLastName: "Albert"
-                },
-            bankAccountDestination:
-                {
-                    type: "debit",
-                    iban: "ro98765",
-                    userFirstName: "John",
-                    userLastName: "Doe"
-                },
-            sum: 5000,
-            currency: "RON",
-            discountPercentage: "10"
-        },
-        {
-            bankAccountSource:
-                {
-                    type: "credit",
-                    iban: "ro123456",
-                    userFirstName: "Martin",
-                    userLastName: "Albert"
-                },
-            bankAccountDestination:
-                {
-                    type: "debit",
-                    iban: "ro98765",
-                    userFirstName: "John",
-                    userLastName: "Doe"
-                },
-            sum: 5000,
-            currency: "RON",
-            discountPercentage: "10"
-        },
-        {
-            bankAccountSource:
-                {
-                    type: "credit",
-                    iban: "ro123456",
-                    userFirstName: "Martin",
-                    userLastName: "Albert"
-                },
-            bankAccountDestination:
-                {
-                    type: "debit",
-                    iban: "ro98765",
-                    userFirstName: "John",
-                    userLastName: "Doe"
-                },
-            sum: 5000,
-            currency: "RON",
-            discountPercentage: "10"
-        },
-        {
-            bankAccountSource:
-                {
-                    type: "credit",
-                    iban: "ro123456",
-                    userFirstName: "Martin",
-                    userLastName: "Albert"
-                },
-            bankAccountDestination:
-                {
-                    type: "debit",
-                    iban: "ro98765",
-                    userFirstName: "John",
-                    userLastName: "Doe"
-                },
-            sum: 5000,
-            currency: "RON",
-            discountPercentage: "10"
-        },
-    ]
 
 
     const cardTemplate = (card: cardItem) => <div className={"home_card_template"}><ReactCreditCards cvc={card.cvc}

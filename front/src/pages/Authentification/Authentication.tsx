@@ -182,10 +182,15 @@ const Authentication = () => {
 
         if (!isInvalid) {
             try {
-                await Axios.post("http://51.20.81.164/api/Users/Register", {
+                const response = await Axios.post("http://51.20.81.164/api/Users/Register", {
                     username: username,
                     password: password,
                     email: email
+                })
+
+                await Axios.post("http://51.20.81.164/api/BankAccount/AddAccount", {
+                    type: "debit",
+                    userId: response.data
                 })
 
                 toast.success('Register with success! You can login', {

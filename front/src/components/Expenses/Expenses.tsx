@@ -1,5 +1,5 @@
 import {Chart} from "primereact/chart";
-import {randBrand, randColor} from "@ngneat/falso";
+import {randBrand, randColor, randNumber} from "@ngneat/falso";
 import {Calendar} from "primereact/calendar";
 import {useState} from "react";
 import {Nullable} from "primereact/ts-helpers";
@@ -11,17 +11,18 @@ const colors = [
     randColor()
 ]
 
+const dataN = [randNumber(), randNumber(), randNumber()]
+
 export const Expenses = ({expenses}: {
     expenses?: number
 }) => {
     const [date, setDate] = useState<Nullable<(Date | null)[]>>(null)
 
-
     const data = {
         labels: companies,
         datasets: [
             {
-                data: [1000, 1425, 1575],
+                data: dataN,
                 backgroundColor: colors
 
             }
@@ -56,7 +57,10 @@ export const Expenses = ({expenses}: {
                     type="pie"
                     data={data}
                     options={options}
-                    style={{width: '20rem'}}/> </>}
+                    style={{width: '20rem'}}/>
+                <p> Considering your expenses, you could try buying from: </p>
+            </>}
+
         </>
     )
 }

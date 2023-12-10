@@ -1,9 +1,16 @@
 .greenPoints_container {
     display: flex;
     justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.greenPoints_container button {
+    margin-bottom: 1.3rem;
 }
 
 .greenPoints_stores {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
 }
