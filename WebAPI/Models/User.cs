@@ -16,6 +16,10 @@ public class User
     [Column("password")]
     public string Password { get; set; } = string.Empty;
 
+    [Column("first_name")] public string FirstName { get; set; } = string.Empty;
+
+    [Column("last_name")] public string LastName { get; set; } = string.Empty;
+    
     [Column("eco_points")]
     public int EcoPoints { get; set; }
 

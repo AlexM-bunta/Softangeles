@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using WebAPI.EntityFramework.Context;
 using WebAPI.Interfaces;
 using WebAPI.Models;
+using WebAPI.Responses;
 using WebAPI.Responses.Enums;
 
 namespace WebAPI.Repositories;
@@ -51,5 +52,22 @@ public class BankAccountRepository : IBankAccountRepository
                 return AccountAddResponseCode.Fail;
             }
         }
+    }
+
+    public async Task<GetAccountBalanceResponse> GetCurrentBalance(int accountId)
+    {
+        var getAccountBalanceResponse = new GetAccountBalanceResponse()
+        {
+            AccountResponseCode = AccountResponseCode.Success
+        };
+        
+        var account = await _context.BankAccounts.FirstOrDefaultAsync(b => b.Id == accountId);
+
+        if (account == null)
+            getAccountBalanceResponse.AccountResponseCode = AccountResponseCode.NoObjectsFound;
+        else
+            getAccountBalanceResponse.Balance = account.Balance;
+
+        return getAccountBalanceResponse;
     }
 }

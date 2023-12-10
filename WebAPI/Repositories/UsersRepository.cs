@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Contracts;
 using WebAPI.EntityFramework.Context;
+using WebAPI.Extensions;
 using WebAPI.Interfaces;
 using WebAPI.Models;
 using WebAPI.Reponses;
@@ -76,7 +77,10 @@ public class UsersRepository : IUsersRepository
                 {
                     Username = userContract.Username,
                     Password = userContract.Password,
-                    Email = userContract.Email
+                    Email = userContract.Email,
+                    FirstName = userContract.FirstName,
+                    LastName = userContract.LastName,
+                    RegisteredDate = DateTimeExtensions.SetKindUtc(DateTime.Now) ?? DateTime.Now
                 };
                 
                 var userAdded = await _context.Users.AddAsync(user);

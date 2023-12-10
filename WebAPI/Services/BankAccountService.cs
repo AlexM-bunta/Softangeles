@@ -65,7 +65,8 @@ public class BankAccountService : IBankAccountService
         {
             TypeId = type.Id,
             Balance = 0,
-            IBAN = Utils.GenerateIBAN()
+            IBAN = Utils.GenerateIBAN(),
+            CreateDate = DateTimeExtensions.SetKindUtc(DateTime.Now) ?? DateTime.Now
         };
         
         var response = await _bankRepository.AddAccount(account);
