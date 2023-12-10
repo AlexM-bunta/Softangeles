@@ -7,7 +7,7 @@ namespace WebAPI.Interfaces;
 public interface IBankAccountRepository
 {
     Task<List<BankAccount>> GetBankAccountsByUser(int userId);
-    Task<BankAccount> GetBankAccountByIBAN(string IBAN);
+    Task<BankAccount?> GetBankAccountByIBAN(string IBAN);
     Task<List<BankAccountType>> GetBankAccountTypes();
     Task<AccountAddResponseCode> AddAccount(BankAccount bankAccount);
     Task<GetAccountBalanceResponse> GetCurrentBalance(int accountId);
