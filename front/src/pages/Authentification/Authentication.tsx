@@ -73,6 +73,8 @@ const Authentication = () => {
                     password: password
                 })
                 localStorage.setItem("UID", response.data)
+                Axios.get("http://51.20.81.164/api/users/GetUserDetails/" + response.data).then(res => localStorage.setItem("activeUser", JSON.stringify(res.data)));
+
                 navigate("/home")
             } catch (e) {
                 console.log(e);

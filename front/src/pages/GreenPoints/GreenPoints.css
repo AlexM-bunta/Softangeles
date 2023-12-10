@@ -1,0 +1,9 @@
+.greenPoints_container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.greenPoints_stores {
+    display: flex;
+    justify-content: space-between;
+}

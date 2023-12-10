@@ -16,6 +16,7 @@ export const NavigationBar = () => {
         {label: 'Loans', icon: 'pi pi-fw pi-calendar', url: "/loans"},
         // {label: 'Deposits', icon: 'pi pi-fw pi-pencil', url: "/deposits"},
         {label: 'Green Points', icon: 'pi pi-money-bill', url: '/green-points'},
+        {label: 'Investments', icon: 'pi pi-chart-line', url: '/investments'},
         {label: 'Profile', icon: 'pi pi-user', url: "/profile"},
         {label: 'Logout', icon: 'pi pi-sign-out', url: "/"},
     ]

@@ -11,6 +11,7 @@ import './App.css'
 import "primereact/resources/themes/lara-light-green/theme.css";
 import 'primeicons/primeicons.css';
 import {GreenPoints} from "./pages/GreenPoints/GreenPoints.tsx";
+import {Investments} from "./pages/Investments/Investments.tsx";
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
                 <Route path="/home" element={<Home/>}/>
                 <Route path="/green-points" element={<GreenPoints/>}/>
                 <Route path="/profile" element={<Profile/>}/>
+                <Route path="/investments" element={<Investments/>}/>
                 {/*<Route path="*" element={<Page404/>}/>*/}
 
             </Routes>

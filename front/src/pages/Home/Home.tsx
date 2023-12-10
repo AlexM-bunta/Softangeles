@@ -27,7 +27,7 @@ const Home = () => {
     const [visibleAddCard, setVisibleAddCard] = useState(false)
     const [visibleAddTransaction, setVisibleAddTransaction] = useState(false);
     const [visibleExpenses, setVisibleExpenses] = useState(false);
-
+    
     const cards: cardItem[] = [{
         cvc: "123",
         expiry: "05/29",
@@ -171,7 +171,6 @@ const Home = () => {
             <div>
                 {listOfTransactions.map(transaction => <div style={{maxHeight: "800px", overflowY: "auto"}}>
                     <Transaction
-                        
                         sum={transaction.sum + transaction.currency}
                         receiver={transaction.bankAccountDestination.userFirstName + " " + transaction.bankAccountDestination.userLastName}
                         sender={transaction.bankAccountSource.userFirstName + " " + transaction.bankAccountSource.userLastName}/>
